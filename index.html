@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ====== EDIT HERE: colors ====== */
+  :root {
+    --bg: #12161f;
+    --glow: rgba(176, 138, 72, 0.38);
+    --text: #f3f1ec;
+    --muted: #9aa0ab;
+    --tile: rgba(255, 255, 255, 0.09);
+    --tile-border: rgba(255, 255, 255, 0.2);
+    --focus: #d8b766;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100%; overflow: hidden; color: var(--text);
+    font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(ellipse 55% 60% at 0% 0%, var(--glow), rgba(0,0,0,0) 70%),
+      radial-gradient(ellipse 80% 70% at 100% 100%, rgba(0,0,0,0.45), rgba(0,0,0,0) 70%),
+      linear-gradient(160deg, #1b1f29 0%, #12161f 55%, #0c0f15 100%);
+  }
+
+  /* Header: clock + weather */
+  .clock { position: absolute; top: 11vh; left: 6.25vw; }
+  #time { font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-size: 13vh; font-weight: 400; line-height: 0.9; letter-spacing: -0.02em; }
+  #date { font-size: 2.9vh; color: var(--muted); margin-top: 1.6vh; }
+  .weather { position: absolute; top: 14vh; right: 6.25vw; display: flex; align-items: center; }
+  .weather svg { width: 8vh; height: 8vh; margin-right: 1.6vh; }
+  #temp { font-size: 7.2vh; font-weight: 400; line-height: 1; }
+
+  /* Tiles */
+  .grid {
+    position: absolute; top: 36vh; left: 6.25vw; right: 6.25vw;
+    display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: 22.5vh 22.5vh;
+    column-gap: 2.2vw; row-gap: 3.8vh;
+  }
+  .tile {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: var(--tile); border: 1px solid var(--tile-border); border-radius: 1.8vh;
+    color: var(--text); text-decoration: none; outline: none;
+    box-shadow: 0 1vh 3vh rgba(0, 0, 0, 0.35);
+    transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  .tile svg { width: 8.5vh; height: 8.5vh; }
+  .tile .name { font-size: 2.9vh; margin-top: 1.8vh; }
+  .tile.focus {
+    transform: scale(1.06);
+    background: rgba(232, 214, 170, 0.24);
+    border: 2px solid var(--focus);
+    box-shadow: 0 0 2.5vh rgba(216, 183, 102, 0.35), 0 1.5vh 4vh rgba(0, 0, 0, 0.45);
+  }
+
+  footer { position: absolute; bottom: 5.4vh; left: 0; right: 0; text-align: center; font-size: 2.2vh; color: var(--muted); }
+
+  /* Line icons */
+  .ic { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+
+<div class="clock">
+  <div id="time">--:--</div>
+  <div id="date"></div>
+</div>
+
+<div class="weather">
+  <span id="wicon"></span>
+  <div id="temp">--°</div>
+</div>
+
+<!-- ====== EDIT HERE: your tiles (icon, name, link) ====== -->
+<div class="grid" id="grid">
+  <a class="tile" href="https://www.youtube.com/tv">
+    <svg class="ic" viewBox="0 0 48 48"><rect x="6" y="10" width="36" height="28" rx="7"/><path d="M20 18l10 6-10 6z"/></svg>
+    <span class="name">YouTube</span></a>
+
+  <a class="tile" href="https://www.ardmediathek.de">
+    <svg class="ic" viewBox="0 0 48 48"><path d="M17 8l7 7 7-7"/><rect x="5" y="15" width="38" height="25" rx="3"/><rect x="9" y="19" width="24" height="17" rx="2"/><circle cx="38" cy="22" r="1.6"/><circle cx="38" cy="28" r="1.6"/><path d="M36 33h4"/><path d="M11 40v3M37 40v3"/></svg>
+    <span class="name">ARD Mediathek</span></a>
+
+  <a class="tile" href="https://www.zdf.de">
+    <svg class="ic" viewBox="0 0 48 48"><path d="M10 16a14 14 0 0 0 19.8 19.8z"/><path d="M20 26l7-7"/><circle cx="28" cy="18" r="1.8"/><path d="M33 11a8 8 0 0 1 4 4M34 6a13 13 0 0 1 8 8"/><path d="M17 33l-3 9h12l-3-6"/></svg>
+    <span class="name">ZDF</span></a>
+
+  <a class="tile" href="https://web.stremio.com">
+    <svg class="ic" viewBox="0 0 48 48"><rect x="8" y="20" width="32" height="20" rx="2"/><path d="M8 20l-1-6 31-6 2 6z"/><path d="M15 12.6l4 6M23 11l4 6M31 9.5l4 6"/><path d="M8 26h32M16 31v9M24 31v9M32 31v9"/></svg>
+    <span class="name">Stremio</span></a>
+
+  <a class="tile" href="https://open.spotify.com">
+    <svg class="ic" viewBox="0 0 48 48"><path d="M18 34V12l20-5v22"/><path d="M18 17l20-5"/><circle cx="13" cy="34" r="5"/><circle cx="33" cy="29" r="5"/></svg>
+    <span class="name">Spotify</span></a>
+
+  <a class="tile" href="https://www.tagesschau.de">
+    <svg class="ic" viewBox="0 0 48 48"><path d="M8 10h28v28H12a4 4 0 0 1-4-4z"/><path d="M36 18h4v16a4 4 0 0 1-8 0"/><rect x="13" y="15" width="9" height="8"/><path d="M26 16h6M26 21h6M13 28h19M13 33h19"/></svg>
+    <span class="name">Tagesschau</span></a>
+
+  <a class="tile" href="https://claude.ai">
+    <svg class="ic" viewBox="0 0 48 48"><path d="M24 5v38M5 24h38M10.6 10.6l26.8 26.8M37.4 10.6L10.6 37.4M16.7 6.4l14.6 35.2M31.3 6.4L16.7 41.6M6.4 16.7l35.2 14.6M41.6 16.7L6.4 31.3"/></svg>
+    <span class="name">Claude</span></a>
+
+  <a class="tile" href="https://www.google.com">
+    <svg class="ic" viewBox="0 0 48 48"><circle cx="20" cy="20" r="12"/><path d="M29 29l12 12"/></svg>
+    <span class="name">Google</span></a>
+</div>
+
+<footer>OK öffnen &nbsp;·&nbsp; ◀ ▶ navigieren</footer>
+
+<script>
+  // ====== EDIT HERE: weather location (Mörfelden-Walldorf) ======
+  var LAT = 49.99, LON = 8.57;
+  var COLS = 4; // must match grid-template-columns
+
+  // --- Clock ---
+  var DAYS = ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
+  var MONTHS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+  function pad(n) { return n < 10 ? "0" + n : "" + n; }
+  function tick() {
+    var d = new Date();
+    document.getElementById("time").textContent = pad(d.getHours()) + ":" + pad(d.getMinutes());
+    document.getElementById("date").textContent = DAYS[d.getDay()] + ", " + d.getDate() + ". " + MONTHS[d.getMonth()];
+  }
+  tick(); setInterval(tick, 10000);
+
+  // --- Weather icons (line style) ---
+  var S = '<svg class="ic" viewBox="0 0 48 48">';
+  var CLOUD = '<path d="M14 36h21a8 8 0 0 0 0-16 11 11 0 0 0-21-2A9 9 0 0 0 14 36z"/>';
+  var ICONS = {
+    sun:   S + '<circle cx="24" cy="24" r="8"/><path d="M24 6v5M24 37v5M6 24h5M37 24h5M11.3 11.3l3.5 3.5M33.2 33.2l3.5 3.5M36.7 11.3l-3.5 3.5M14.8 33.2l-3.5 3.5"/></svg>',
+    cloud: S + CLOUD + '</svg>',
+    rain:  S + '<path d="M14 30h21a8 8 0 0 0 0-16 11 11 0 0 0-21-2A9 9 0 0 0 14 30z"/><path d="M17 35l-2 5M25 35l-2 5M33 35l-2 5"/></svg>',
+    snow:  S + '<path d="M14 30h21a8 8 0 0 0 0-16 11 11 0 0 0-21-2A9 9 0 0 0 14 30z"/><path d="M17 37v.1M25 39v.1M33 37v.1" stroke-width="3"/></svg>',
+    fog:   S + '<path d="M8 18h32M6 25h36M10 32h28"/></svg>',
+    storm: S + '<path d="M14 30h21a8 8 0 0 0 0-16 11 11 0 0 0-21-2A9 9 0 0 0 14 30z"/><path d="M25 31l-4 7h6l-4 7"/></svg>'
+  };
+  function iconFor(code) {
+    if (code <= 1) return ICONS.sun;
+    if (code <= 3) return ICONS.cloud;
+    if (code === 45 || code === 48) return ICONS.fog;
+    if (code >= 71 && code <= 77) return ICONS.snow;
+    if (code >= 95) return ICONS.storm;
+    return ICONS.rain;
+  }
+  document.getElementById("wicon").innerHTML = ICONS.cloud;
+
+  // --- Weather data (Open-Meteo, free, no key) ---
+  function loadWeather() {
+    var url = "https://api.open-meteo.com/v1/forecast?latitude=" + LAT + "&longitude=" + LON +
+              "&current=temperature_2m,weather_code&timezone=Europe%2FBerlin";
+    var x = new XMLHttpRequest();
+    x.open("GET", url);
+    x.onload = function () {
+      try {
+        var c = JSON.parse(x.responseText).current;
+        document.getElementById("temp").textContent = Math.round(c.temperature_2m) + "°";
+        document.getElementById("wicon").innerHTML = iconFor(c.weather_code);
+      } catch (e) {}
+    };
+    x.send();
+  }
+  loadWeather(); setInterval(loadWeather, 30 * 60 * 1000);
+
+  // --- Remote control navigation ---
+  var tiles = document.getElementById("grid").getElementsByTagName("a");
+  var current = 0;
+  try { current = parseInt(localStorage.getItem("tvhome_focus") || "0", 10) || 0; } catch (e) {}
+  if (current >= tiles.length) current = 0;
+
+  function setFocus(i) {
+    if (i < 0 || i >= tiles.length) return;
+    tiles[current].className = "tile";
+    current = i;
+    tiles[current].className = "tile focus";
+    tiles[current].focus();
+    try { localStorage.setItem("tvhome_focus", current); } catch (e) {}
+  }
+  setFocus(current);
+
+  for (var t = 0; t < tiles.length; t++) {
+    (function (i) { tiles[i].onmouseover = function () { setFocus(i); }; })(t);
+  }
+
+  document.onkeydown = function (e) {
+    var k = e.keyCode;
+    if (k === 37) { setFocus(current - 1); }            // left
+    else if (k === 39) { setFocus(current + 1); }       // right
+    else if (k === 38) { setFocus(current - COLS); }    // up
+    else if (k === 40) { setFocus(current + COLS); }    // down
+    else if (k === 13) { window.location.href = tiles[current].href; } // OK
+    else { return true; }
+    if (e.preventDefault) e.preventDefault();
+    return false;
+  };
+</script>
+</body>
+</html>
