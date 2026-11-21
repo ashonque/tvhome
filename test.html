@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TV Test</title>
+<style>
+  html, body { margin: 0; background: #12161f; color: #f3f1ec; font-family: Arial, sans-serif; }
+  body { padding: 5vh 5vw; }
+  h1 { font-size: 6vh; margin: 0 0 4vh 0; }
+  .big { font-size: 7vh; font-weight: bold; margin-bottom: 4vh; }
+  .yes { color: #6fdc8c; }
+  .no { color: #ff7b7b; }
+  .small { font-size: 2.6vh; color: #9aa0ab; line-height: 1.5; word-wrap: break-word; }
+</style>
+</head>
+<body>
+<h1>VIDAA install test</h1>
+<div id="result" class="big">checking...</div>
+<div id="details" class="small"></div>
+
+<script>
+  var found = typeof window.Hisense_installApp !== "undefined";
+  var r = document.getElementById("result");
+  r.className = "big " + (found ? "yes" : "no");
+  r.innerHTML = found ? "PRESENT &#10003;" : "MISSING &#10007;";
+
+  // Other Hisense / VIDAA functions this browser exposes (if any)
+  var names = [];
+  try {
+    for (var k in window) {
+      if (/hisense|vidaa|omi_|opera/i.test(k)) names.push(k);
+    }
+  } catch (e) {}
+
+  var gridOk = false, flexOk = false, varsOk = false;
+  try {
+    var d = document.createElement("div");
+    d.style.display = "grid"; gridOk = d.style.display === "grid";
+    d.style.display = "flex"; flexOk = d.style.display === "flex";
+    varsOk = !!(window.CSS && CSS.supports && CSS.supports("color", "var(--x)"));
+  } catch (e) {}
+
+  document.getElementById("details").innerHTML =
+    "Hisense functions: " + (names.length ? names.join(", ") : "none") + "<br>" +
+    "CSS grid: " + (gridOk ? "yes" : "NO") + " &nbsp; flex: " + (flexOk ? "yes" : "NO") +
+    " &nbsp; CSS variables: " + (varsOk ? "yes" : "NO") + "<br>" +
+    "Screen: " + window.innerWidth + " x " + window.innerHeight + "<br>" +
+    "Browser: " + navigator.userAgent;
+</script>
+</body>
+</html>
