@@ -40,12 +40,18 @@
     varsOk = !!(window.CSS && CSS.supports && CSS.supports("color", "var(--x)"));
   } catch (e) {}
 
+  function call(fn) {
+    try { return typeof window[fn] === "function" ? String(window[fn]()) : "-"; } catch (e) { return "error"; }
+  }
+
   document.getElementById("details").innerHTML =
-    "Hisense functions: " + (names.length ? names.join(", ") : "none") + "<br>" +
+    "<b style='font-size:4vh;color:#f3f1ec'>" +
     "CSS grid: " + (gridOk ? "yes" : "NO") + " &nbsp; flex: " + (flexOk ? "yes" : "NO") +
     " &nbsp; CSS variables: " + (varsOk ? "yes" : "NO") + "<br>" +
-    "Screen: " + window.innerWidth + " x " + window.innerHeight + "<br>" +
-    "Browser: " + navigator.userAgent;
+    "Chromium: " + call("Hisense_GetChromiumVersion") +
+    " &nbsp; Screen: " + window.innerWidth + " x " + window.innerHeight + "</b><br><br>" +
+    "Browser: " + navigator.userAgent + "<br><br>" +
+    "Hisense functions (" + names.length + "): " + (names.length ? names.join(", ") : "none");
 </script>
 </body>
 </html>
