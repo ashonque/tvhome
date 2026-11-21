@@ -28,7 +28,8 @@
       linear-gradient(160deg, #1b1f29 0%, #12161f 55%, #0c0f15 100%);
   }
 
-  /* Header: clock + weather */
+  /* Header: greeting, clock + weather */
+  #greeting { position: absolute; top: 5vh; left: 6.25vw; font-size: 4.2vh; color: var(--focus); }
   .clock { position: absolute; top: 11vh; left: 6.25vw; }
   #time { font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-size: 13vh; font-weight: 400; line-height: 0.9; letter-spacing: -0.02em; }
   #date { font-size: 2.9vh; color: var(--muted); margin-top: 1.6vh; }
@@ -65,6 +66,8 @@
 </style>
 </head>
 <body>
+
+<div id="greeting"></div>
 
 <div class="clock">
   <div id="time">--:--</div>
@@ -114,12 +117,22 @@
   var LAT = 49.99, LON = 8.57;
   var COLS = 4; // must match grid-template-columns
 
-  // --- Clock ---
+  // ====== EDIT HERE: names in the greeting ======
+  var NAMES = "Ashwin & Cinzia";
+
+  // --- Clock + greeting ---
+  function greetingFor(h) {
+    if (h >= 5 && h < 12) return "Good morning";
+    if (h >= 12 && h < 18) return "Good afternoon";
+    if (h >= 18 && h < 22) return "Good evening";
+    return "Good night";
+  }
   var DAYS = ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
   var MONTHS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
   function pad(n) { return n < 10 ? "0" + n : "" + n; }
   function tick() {
     var d = new Date();
+    document.getElementById("greeting").textContent = greetingFor(d.getHours()) + ", " + NAMES;
     document.getElementById("time").textContent = pad(d.getHours()) + ":" + pad(d.getMinutes());
     document.getElementById("date").textContent = DAYS[d.getDay()] + ", " + d.getDate() + ". " + MONTHS[d.getMonth()];
   }
