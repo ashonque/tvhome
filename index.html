@@ -59,6 +59,12 @@
     box-shadow: 0 0 2.5vh rgba(216, 183, 102, 0.35), 0 1.5vh 4vh rgba(0, 0, 0, 0.45);
   }
 
+  #hint {
+    display: none; position: absolute; left: 50%; bottom: 12vh; width: 60vw; margin-left: -30vw;
+    padding: 2vh; text-align: center; font-size: 3.2vh; border-radius: 1.5vh;
+    background: rgba(0, 0, 0, 0.75); border: 2px solid var(--focus);
+  }
+
   footer { position: absolute; bottom: 5.4vh; left: 0; right: 0; text-align: center; font-size: 2.2vh; color: var(--muted); }
 
   /* Line icons */
@@ -108,7 +114,13 @@
   <a class="tile" href="https://www.google.com">
     <svg viewBox="0 0 48 48"><g fill="none" stroke-width="7"><path d="M38 24A14 14 0 0 1 33.9 33.9M24 24H38" stroke="#4285F4"/><path d="M33.9 33.9A14 14 0 0 1 11.88 31" stroke="#34A853"/><path d="M11.88 31A14 14 0 0 1 11.88 17" stroke="#FBBC05"/><path d="M11.88 17A14 14 0 0 1 34.72 15" stroke="#EA4335"/></g></svg>
     <span class="name">Google</span></a>
+
+  <a class="tile" id="vidaa" href="#">
+    <svg viewBox="0 0 48 48"><g fill="none" stroke="#d8b766" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M7 23L24 8l17 15"/><path d="M12 19v20h24V19"/><path d="M20 39V28h8v11"/></g></svg>
+    <span class="name">VIDAA Home</span></a>
 </div>
+
+<div id="hint">Press the Home button on your remote</div>
 
 <footer>OK öffnen &nbsp;·&nbsp; ◀ ▶ navigieren</footer>
 
@@ -192,8 +204,27 @@
   }
   setFocus(current);
 
+  // "VIDAA Home" tile: close this page so the TV falls back to the VIDAA home screen.
+  // If the TV doesn't allow closing, show a hint instead.
+  function goVidaaHome() {
+    try { window.close(); } catch (e) {}
+    setTimeout(function () {
+      var h = document.getElementById("hint");
+      h.style.display = "block";
+      setTimeout(function () { h.style.display = "none"; }, 4000);
+    }, 700);
+  }
+
+  function openTile(i) {
+    if (tiles[i].id === "vidaa") { goVidaaHome(); }
+    else { window.location.href = tiles[i].href; }
+  }
+
   for (var t = 0; t < tiles.length; t++) {
-    (function (i) { tiles[i].onmouseover = function () { setFocus(i); }; })(t);
+    (function (i) {
+      tiles[i].onmouseover = function () { setFocus(i); };
+      tiles[i].onclick = function () { setFocus(i); openTile(i); return false; };
+    })(t);
   }
 
   document.onkeydown = function (e) {
@@ -206,7 +237,7 @@
       if (n >= tiles.length && current < COLS) n = tiles.length - 1; // no tile below: go to last
       setFocus(n);
     }
-    else if (k === 13) { window.location.href = tiles[current].href; } // OK
+    else if (k === 13) { openTile(current); }            // OK
     else { return true; }
     if (e.preventDefault) e.preventDefault();
     return false;
