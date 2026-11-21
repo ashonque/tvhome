@@ -231,7 +231,10 @@
     var k = e.keyCode;
     if (k === 37) { setFocus(current - 1); }            // left
     else if (k === 39) { setFocus(current + 1); }       // right
-    else if (k === 38) { setFocus(current - COLS); }    // up
+    else if (k === 38) {                                 // up
+      if (current < COLS) { tiles[current].blur(); return true; } // top row: let the browser bar take over
+      setFocus(current - COLS);
+    }
     else if (k === 40) {                                 // down
       var n = current + COLS;
       if (n >= tiles.length && current < COLS) n = tiles.length - 1; // no tile below: go to last
